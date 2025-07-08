@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
+import placeholder from "@/assets/placeholder.svg";
 
 type Product = {
   id: number;
@@ -28,7 +29,7 @@ const products = [
     originalPrice: 399,
     rating: 4.8,
     reviews: 124,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Best Seller",
     inStock: true,
   },
@@ -39,7 +40,7 @@ const products = [
     originalPrice: 799,
     rating: 4.9,
     reviews: 89,
-    image: "/placeholder.svg?height=300&width=300",
+    image: { placeholder },
     badge: "New",
     inStock: true,
   },
@@ -50,7 +51,7 @@ const products = [
     originalPrice: 549,
     rating: 4.7,
     reviews: 156,
-    image: "/placeholder.svg?height=300&width=300",
+    image: { placeholder },
     badge: "Popular",
     inStock: true,
   },
@@ -61,7 +62,7 @@ const products = [
     originalPrice: 1199,
     rating: 4.9,
     reviews: 203,
-    image: "/placeholder.svg?height=300&width=300",
+    image: { placeholder },
     badge: "Premium",
     inStock: false,
   },
@@ -106,8 +107,10 @@ export function FeaturedProducts() {
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={placeholder}
                     alt={product.name}
+                    height={300}
+                    width={300}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4">

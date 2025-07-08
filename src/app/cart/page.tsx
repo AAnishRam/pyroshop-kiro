@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import Image from "next/image";
+import placeholder from "@/assets/placeholder.svg";
 
 const initialCartItems = [
   {
@@ -127,8 +128,10 @@ export default function CartPage() {
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
                     <Image
-                      src={item.image || "/placeholder.svg"}
+                      src={placeholder}
                       alt={item.name}
+                      width={100}
+                      height={100}
                       className="w-20 h-20 object-cover rounded-lg"
                     />
 

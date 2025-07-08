@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import Image from "next/image";
+import placeholder from "@/assets/placeholder.svg";
 
 type Product = {
   id: number;
@@ -39,7 +40,7 @@ const products = [
     originalPrice: 399,
     rating: 4.8,
     reviews: 124,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Best Seller",
     category: "Sparklers",
     inStock: true,
@@ -51,7 +52,7 @@ const products = [
     originalPrice: 799,
     rating: 4.9,
     reviews: 89,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "New",
     category: "Rockets",
     inStock: true,
@@ -63,7 +64,7 @@ const products = [
     originalPrice: 549,
     rating: 4.7,
     reviews: 156,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Popular",
     category: "Ground Spinners",
     inStock: true,
@@ -75,7 +76,7 @@ const products = [
     originalPrice: 1199,
     rating: 4.9,
     reviews: 203,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Premium",
     category: "Aerial Shells",
     inStock: false,
@@ -87,7 +88,7 @@ const products = [
     originalPrice: 449,
     rating: 4.6,
     reviews: 78,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Sale",
     category: "Fountains",
     inStock: true,
@@ -99,7 +100,7 @@ const products = [
     originalPrice: 899,
     rating: 4.8,
     reviews: 145,
-    image: "/placeholder.svg?height=300&width=300",
+    image: placeholder,
     badge: "Hot",
     category: "Roman Candles",
     inStock: true,
@@ -192,23 +193,6 @@ export default function ProductsPage() {
               <SelectItem value="name">Name A-Z</SelectItem>
             </SelectContent>
           </Select>
-
-          <div className="flex gap-2">
-            <Button
-              variant={viewMode === "grid" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("grid")}
-            >
-              <Grid className="w-4 h-4" />
-            </Button>
-            <Button
-              variant={viewMode === "list" ? "default" : "outline"}
-              size="icon"
-              onClick={() => setViewMode("list")}
-            >
-              <List className="w-4 h-4" />
-            </Button>
-          </div>
         </div>
 
         {/* Results Count */}
@@ -244,6 +228,8 @@ export default function ProductsPage() {
                   <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
+                    width={300}
+                    height={300}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <div className="absolute top-4 left-4">

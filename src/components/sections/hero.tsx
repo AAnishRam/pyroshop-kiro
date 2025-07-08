@@ -2,14 +2,15 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import placeholder from "@/assets/placeholder.svg";
 
 export function Hero() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-gray-50 to-white">
-      <div className="container mx-auto px-4 py-24 lg:py-32">
+      <div className="container mx-auto px-20 py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="inline-flex items-center px-3 py-1 rounded-full bg-red-50 text-red-600 text-sm font-medium">
                 <Sparkles className="w-4 h-4 mr-2" />
                 Premium Quality Guaranteed
@@ -64,9 +65,11 @@ export function Hero() {
           <div className="relative">
             <div className="relative z-10">
               <Image
-                src="/placeholder.svg?height=600&width=500"
+                src={placeholder}
                 alt="Fireworks Display"
                 className="w-full h-auto rounded-2xl shadow-2xl"
+                width={500}
+                height={400}
               />
             </div>
             <div className="absolute inset-0 bg-gradient-to-tr from-red-500/20 to-orange-500/20 rounded-2xl blur-3xl transform scale-110"></div>

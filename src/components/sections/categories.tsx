@@ -1,7 +1,8 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Flame, Sparkles, Star, Zap } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
+import placeholder from "@/assets/placeholder.svg";
+import Image from "next/image";
 
 const categories = [
   {
@@ -59,7 +60,9 @@ export function Categories() {
                 <CardContent className="p-0">
                   <div className="relative overflow-hidden rounded-t-lg">
                     <Image
-                      src={category.image || "/placeholder.svg"}
+                      src={placeholder}
+                      width={300}
+                      height={300}
                       alt={category.name}
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
