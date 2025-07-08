@@ -1,7 +1,5 @@
-import React from "react";
+import HomePage from "./homepage/page";
 
-const page = () => {
-  return <div>Pyro Shop</div>;
-};
-
-export default page;
+export default function page() {
+  return <HomePage />;
+}
