@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ShoppingCart, User, Search, Menu, X } from "lucide-react";
@@ -9,6 +9,10 @@ import { Input } from "@/components/ui/input";
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [cartCount, setCartCount] = useState(3);
+
+  useEffect(() => {
+    setCartCount(3);
+  }, []);
 
   return (
     <header className="sticky top-0 z-20 flex h-14 w-full items-center justify-between border-b bg-white/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-white/60">

@@ -6,6 +6,19 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Heart, ShoppingCart, Star } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  badge: string;
+  inStock: boolean;
+};
 
 const products = [
   {
@@ -65,7 +78,7 @@ export function FeaturedProducts() {
     );
   };
 
-  const addToCart = (product: any) => {
+  const addToCart = (product: Product) => {
     toast("Added to cart!", {
       description: `${product.name} has been added to your cart.`,
     });
@@ -92,7 +105,7 @@ export function FeaturedProducts() {
             >
               <CardContent className="p-0">
                 <div className="relative overflow-hidden rounded-t-lg">
-                  <img
+                  <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"

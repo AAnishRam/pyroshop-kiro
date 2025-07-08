@@ -16,6 +16,20 @@ import { Heart, ShoppingCart, Star, Grid, List } from "lucide-react";
 import { toast } from "sonner";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import Image from "next/image";
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  originalPrice: number;
+  rating: number;
+  reviews: number;
+  image: string;
+  badge: string;
+  category: string;
+  inStock: boolean;
+};
 
 const products = [
   {
@@ -106,7 +120,7 @@ export default function ProductsPage() {
     );
   };
 
-  const addToCart = (product: any) => {
+  const addToCart = (product: Product) => {
     toast("Added to cart!", {
       description: `${product.name} has been added to your cart.`,
     });
@@ -227,7 +241,7 @@ export default function ProductsPage() {
                       : "w-full h-64"
                   } rounded-t-lg`}
                 >
-                  <img
+                  <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"

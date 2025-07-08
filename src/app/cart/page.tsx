@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import Image from "next/image";
 
 const initialCartItems = [
   {
@@ -92,7 +93,7 @@ export default function CartPage() {
             <ShoppingBag className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
             <p className="text-gray-600 mb-8">
-              Looks like you haven't added any items to your cart yet.
+              Looks like you haven&apos;t added any items to your cart yet.
             </p>
             <Link href="/products">
               <Button className="bg-black hover:bg-gray-800">
@@ -125,7 +126,7 @@ export default function CartPage() {
               <Card key={item.id} className="border-0 shadow-lg">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-4">
-                    <img
+                    <Image
                       src={item.image || "/placeholder.svg"}
                       alt={item.name}
                       className="w-20 h-20 object-cover rounded-lg"

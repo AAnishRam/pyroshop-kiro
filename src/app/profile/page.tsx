@@ -30,6 +30,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "sonner";
+import Image from "next/image";
 
 const orderHistory = [
   {
@@ -313,7 +314,9 @@ export default function ProfilePage() {
                   <Heart className="w-5 h-5" />
                   <span>My Wishlist</span>
                 </CardTitle>
-                <CardDescription>Items you've saved for later</CardDescription>
+                <CardDescription>
+                  Items you&apos;ve saved for later
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
@@ -322,7 +325,7 @@ export default function ProfilePage() {
                       key={item.id}
                       className="flex items-center space-x-4 border rounded-lg p-4"
                     >
-                      <img
+                      <Image
                         src={item.image || "/placeholder.svg"}
                         alt={item.name}
                         className="w-16 h-16 object-cover rounded-lg"

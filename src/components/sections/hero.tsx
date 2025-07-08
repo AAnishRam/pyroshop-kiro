@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 export function Hero() {
@@ -62,7 +63,7 @@ export function Hero() {
 
           <div className="relative">
             <div className="relative z-10">
-              <img
+              <Image
                 src="/placeholder.svg?height=600&width=500"
                 alt="Fireworks Display"
                 className="w-full h-auto rounded-2xl shadow-2xl"
