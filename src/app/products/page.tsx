@@ -193,6 +193,23 @@ export default function ProductsPage() {
               <SelectItem value="name">Name A-Z</SelectItem>
             </SelectContent>
           </Select>
+
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === "grid" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("grid")}
+            >
+              <Grid className="w-4 h-4" />
+            </Button>
+            <Button
+              variant={viewMode === "list" ? "default" : "outline"}
+              size="icon"
+              onClick={() => setViewMode("list")}
+            >
+              <List className="w-4 h-4" />
+            </Button>
+          </div>
         </div>
 
         {/* Results Count */}
