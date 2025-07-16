@@ -1,267 +1,289 @@
 "use client";
 
-import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
-import { toast } from "sonner";
+import React from "react";
 import Link from "next/link";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import Image from "next/image";
-import placeholder from "@/assets/placeholder.svg";
+import { useCart } from "@/contexts/CartContext";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import {
+  ShoppingCart,
+  Plus,
+  Minus,
+  Trash2,
+  ArrowLeft,
+  CreditCard,
+  Sparkles,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-const initialCartItems = [
-  {
-    id: 1,
-    name: "Premium Sparklers Pack",
-    price: 299,
-    originalPrice: 399,
-    image: "/placeholder.svg?height=100&width=100",
-    quantity: 2,
-    inStock: true,
-  },
-  {
-    id: 2,
-    name: "Colorful Rocket Set",
-    price: 599,
-    originalPrice: 799,
-    image: "/placeholder.svg?height=100&width=100",
-    quantity: 1,
-    inStock: true,
-  },
-  {
-    id: 3,
-    name: "Ground Spinner Combo",
-    price: 449,
-    originalPrice: 549,
-    image: "/placeholder.svg?height=100&width=100",
-    quantity: 3,
-    inStock: true,
-  },
-];
+const CartPage = () => {
+  const { items, total, itemCount, updateQuantity, removeItem, clearCart } =
+    useCart();
 
-export default function CartPage() {
-  const [cartItems, setCartItems] = useState(initialCartItems);
-  const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity < 1) return;
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-    toast("Item removed", {
-      description: "Item has been removed from your cart.",
-    });
-  };
-
-  const applyPromoCode = () => {
-    if (promoCode.toLowerCase() === "pyro10") {
-      setDiscount(0.1);
-      toast("Promo code applied!", {
-        description: "You got 10% discount on your order.",
-      });
+  const handleQuantityChange = (id: string, newQuantity: number) => {
+    if (newQuantity < 1) {
+      removeItem(id);
     } else {
-      toast.error("Invalid promo code", {
-        description: "Please check your promo code and try again.",
-      });
+      updateQuantity(id, newQuantity);
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-  const discountAmount = subtotal * discount;
-  const shipping = subtotal > 500 ? 0 : 50;
-  const total = subtotal - discountAmount + shipping;
-
-  if (cartItems.length === 0) {
+  if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-white">
-        <Header />
-        <div className="container mx-auto px-4 py-16">
-          <div className="text-center max-w-md mx-auto">
-            <ShoppingBag className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold mb-4">Your cart is empty</h1>
-            <p className="text-gray-600 mb-8">
-              Looks like you haven&apos;t added any items to your cart yet.
-            </p>
-            <Link href="/products">
-              <Button className="bg-black hover:bg-gray-800">
-                Continue Shopping
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center max-w-md mx-auto px-4"
+        >
+          <div className="relative mb-8">
+            <ShoppingCart className="h-24 w-24 text-foreground-tertiary mx-auto" />
+            <div className="absolute inset-0 bg-foreground-tertiary/10 rounded-full blur-2xl" />
+          </div>
+
+          <h1 className="text-3xl font-bold text-foreground mb-4">
+            Your Cart is Empty
+          </h1>
+
+          <p className="text-lg text-foreground-secondary mb-8">
+            Looks like you haven&apos;t added any firecrackers to your cart yet.
+            Let&apos;s fix that!
+          </p>
+
+          <div className="space-y-4">
+            <Link href="/dashboard">
+              <Button size="lg" variant="accent" className="w-full">
+                <Sparkles className="h-5 w-5 mr-2" />
+                Start Shopping
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button size="lg" variant="outline" className="w-full">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Home
               </Button>
             </Link>
           </div>
-        </div>
-        <Footer />
+        </motion.div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
+    <div className="min-h-screen bg-background py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8"
+        >
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
+                Shopping Cart
+              </h1>
+              <p className="text-lg text-foreground-secondary">
+                {itemCount} {itemCount === 1 ? "item" : "items"} in your cart
+              </p>
+            </div>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-4">Shopping Cart</h1>
-          <p className="text-gray-600">
-            Review your items and proceed to checkout
-          </p>
-        </div>
+            <Button
+              onClick={clearCart}
+              variant="outline"
+              className="text-destructive hover:text-destructive"
+            >
+              <Trash2 className="h-4 w-4 mr-2" />
+              Clear Cart
+            </Button>
+          </div>
+        </motion.div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
-            {cartItems.map((item) => (
-              <Card key={item.id} className="border-0 shadow-lg">
-                <CardContent className="p-6">
-                  <div className="flex items-center space-x-4">
-                    <Image
-                      src={placeholder}
-                      alt={item.name}
-                      width={100}
-                      height={100}
-                      className="w-20 h-20 object-cover rounded-lg"
-                    />
+            <AnimatePresence>
+              {items.map((item, index) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20, height: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  layout
+                >
+                  <Card className="overflow-hidden hover:shadow-md transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        {/* Product Image */}
+                        <div className="w-full sm:w-24 h-24 bg-gradient-to-br from-accent/10 to-accent/5 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Sparkles className="h-8 w-8 text-accent" />
+                        </div>
 
-                    <div className="flex-1">
-                      <h3 className="font-semibold text-lg mb-2">
-                        {item.name}
-                      </h3>
-                      <div className="flex items-center space-x-2 mb-2">
-                        <span className="text-lg font-bold">₹{item.price}</span>
-                        <span className="text-sm text-gray-500 line-through">
-                          ₹{item.originalPrice}
-                        </span>
+                        {/* Product Details */}
+                        <div className="flex-1 space-y-2">
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-foreground-secondary">
+                            {item.description}
+                          </p>
+                          <p className="text-lg font-bold text-accent">
+                            ₹{item.price}
+                          </p>
+                        </div>
+
+                        {/* Quantity Controls */}
+                        <div className="flex flex-col sm:flex-row items-center gap-4">
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              onClick={() =>
+                                handleQuantityChange(item.id, item.quantity - 1)
+                              }
+                              className="h-8 w-8"
+                            >
+                              <Minus className="h-3 w-3" />
+                            </Button>
+
+                            <Input
+                              type="number"
+                              value={item.quantity}
+                              onChange={(e) =>
+                                handleQuantityChange(
+                                  item.id,
+                                  parseInt(e.target.value) || 1
+                                )
+                              }
+                              className="w-16 text-center h-8"
+                              min="1"
+                              max={item.stock}
+                            />
+
+                            <Button
+                              size="icon"
+                              variant="outline"
+                              onClick={() =>
+                                handleQuantityChange(item.id, item.quantity + 1)
+                              }
+                              className="h-8 w-8"
+                              disabled={item.quantity >= item.stock}
+                            >
+                              <Plus className="h-3 w-3" />
+                            </Button>
+                          </div>
+
+                          <Button
+                            size="icon"
+                            variant="ghost"
+                            onClick={() => removeItem(item.id)}
+                            className="text-destructive hover:text-destructive h-8 w-8"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
                       </div>
-                      <p className="text-sm text-green-600">In Stock</p>
-                    </div>
 
-                    <div className="flex items-center space-x-3">
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity - 1)
-                        }
-                        disabled={item.quantity <= 1}
-                      >
-                        <Minus className="w-4 h-4" />
-                      </Button>
-                      <span className="w-8 text-center font-medium">
-                        {item.quantity}
-                      </span>
-                      <Button
-                        size="icon"
-                        variant="outline"
-                        onClick={() =>
-                          updateQuantity(item.id, item.quantity + 1)
-                        }
-                      >
-                        <Plus className="w-4 h-4" />
-                      </Button>
-                    </div>
-
-                    <div className="text-right">
-                      <p className="font-bold text-lg">
-                        ₹{item.price * item.quantity}
-                      </p>
-                      <Button
-                        size="icon"
-                        variant="ghost"
-                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => removeItem(item.id)}
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                      {/* Item Total */}
+                      <div className="mt-4 pt-4 border-t border-border">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm text-foreground-secondary">
+                            Subtotal ({item.quantity}{" "}
+                            {item.quantity === 1 ? "item" : "items"})
+                          </span>
+                          <span className="text-lg font-semibold text-foreground">
+                            ₹{(item.price * item.quantity).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
 
           {/* Order Summary */}
-          <div className="lg:col-span-1">
-            <Card className="border-0 shadow-lg sticky top-8">
-              <CardContent className="p-6">
-                <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="lg:col-span-1"
+          >
+            <Card className="sticky top-8">
+              <CardHeader>
+                <CardTitle className="text-xl">Order Summary</CardTitle>
+              </CardHeader>
 
-                <div className="space-y-4 mb-6">
+              <CardContent className="space-y-4">
+                <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span>Subtotal ({cartItems.length} items)</span>
-                    <span>₹{subtotal}</span>
+                    <span className="text-foreground-secondary">Subtotal</span>
+                    <span className="font-medium">
+                      ₹{total.toLocaleString()}
+                    </span>
                   </div>
 
-                  {discount > 0 && (
-                    <div className="flex justify-between text-green-600">
-                      <span>Discount (10%)</span>
-                      <span>-₹{discountAmount.toFixed(0)}</span>
+                  <div className="flex justify-between">
+                    <span className="text-foreground-secondary">Shipping</span>
+                    <span className="font-medium text-green-600">Free</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span className="text-foreground-secondary">Tax</span>
+                    <span className="font-medium">
+                      ₹{Math.round(total * 0.18).toLocaleString()}
+                    </span>
+                  </div>
+
+                  <div className="border-t border-border pt-2">
+                    <div className="flex justify-between">
+                      <span className="text-lg font-semibold">Total</span>
+                      <span className="text-lg font-bold text-accent">
+                        ₹{Math.round(total * 1.18).toLocaleString()}
+                      </span>
                     </div>
-                  )}
-
-                  <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span>{shipping === 0 ? "Free" : `₹${shipping}`}</span>
                   </div>
+                </div>
 
-                  <Separator />
+                <div className="space-y-3 pt-4">
+                  <Link href="/checkout">
+                    <Button size="lg" variant="accent" className="w-full">
+                      <CreditCard className="h-5 w-5 mr-2" />
+                      Proceed to Checkout
+                    </Button>
+                  </Link>
 
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Total</span>
-                    <span>₹{total.toFixed(0)}</span>
-                  </div>
+                  <Link href="/dashboard">
+                    <Button size="lg" variant="outline" className="w-full">
+                      <ArrowLeft className="h-4 w-4 mr-2" />
+                      Continue Shopping
+                    </Button>
+                  </Link>
                 </div>
 
                 {/* Promo Code */}
-                <div className="mb-6">
-                  <div className="flex space-x-2">
-                    <Input
-                      placeholder="Enter promo code"
-                      value={promoCode}
-                      onChange={(e) => setPromoCode(e.target.value)}
-                    />
-                    <Button variant="outline" onClick={applyPromoCode}>
-                      Apply
-                    </Button>
+                <div className="pt-4 border-t border-border">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium text-foreground">
+                      Promo Code
+                    </label>
+                    <div className="flex space-x-2">
+                      <Input placeholder="Enter code" className="flex-1" />
+                      <Button variant="outline">Apply</Button>
+                    </div>
                   </div>
-                  {shipping > 0 && (
-                    <p className="text-sm text-gray-600 mt-2">
-                      Add ₹{500 - subtotal} more for free shipping
-                    </p>
-                  )}
                 </div>
-
-                <Link href="/checkout">
-                  <Button className="w-full bg-black hover:bg-gray-800 text-white mb-4">
-                    Proceed to Checkout
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-
-                <Link href="/products">
-                  <Button variant="outline" className="w-full bg-transparent">
-                    Continue Shopping
-                  </Button>
-                </Link>
               </CardContent>
             </Card>
-          </div>
+          </motion.div>
         </div>
       </div>
-
-      <Footer />
     </div>
   );
-}
+};
+
+export default CartPage;

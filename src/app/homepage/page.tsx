@@ -1,8 +1,8 @@
-import { Header } from "@/components/layout/header";
 import { Hero } from "@/components/sections/hero";
 import { FeaturedProducts } from "@/components/sections/featured-products";
 import { Categories } from "@/components/sections/categories";
-import { Footer } from "@/components/layout/footer";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 
 export default function HomePage() {
   return (

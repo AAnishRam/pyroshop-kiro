@@ -14,10 +14,10 @@ import {
 } from "@/components/ui/select";
 import { Heart, ShoppingCart, Star, Grid, List } from "lucide-react";
 import { toast } from "sonner";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
 import Image from "next/image";
 import placeholder from "@/assets/placeholder.svg";
+
+import Footer from "@/components/layout/footer";
 
 type Product = {
   id: number;
@@ -148,8 +148,6 @@ export default function ProductsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
-
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
